@@ -27,8 +27,6 @@ app.add_middleware(
 )
 
 
-create_db_and_tables()
-
 app.include_router(auth.router)
 # app.include_router(polls.router)
 app.include_router(admin.router)
