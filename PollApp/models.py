@@ -4,6 +4,8 @@ from sqlmodel import SQLModel, Field, Relationship
 
 
 class Users(SQLModel, table=True):
+    __table_args__ = {'schema': 'public'}
+
     id: int | None = Field(default=None, primary_key=True)
     email: str
     username: str = Field(min_length=1, index=True, unique=True)
@@ -24,6 +26,8 @@ class UserChangePassword(SQLModel):
 
 
 class Competitions(SQLModel, table=True):
+    __table_args__ = {'schema': 'public'}
+
     id: int | None = Field(default=None, primary_key=True)
     title: str
     desc: str
@@ -36,6 +40,8 @@ class CompetitionsRequest(SQLModel):
     desc: str
 
 class CompetitionParticipants(SQLModel, table=True):
+    __table_args__ = {'schema': 'public'}
+
     id: int | None = Field(default=None, primary_key=True)
 
     competition_id:  int = Field(foreign_key="competitions.id")
@@ -48,6 +54,8 @@ class CompetitionParticipantsRequest(SQLModel):
     user_ids: List[int]
 
 class ParticipantScores(SQLModel, table=True):
+    __table_args__ = {'schema': 'public'}
+
     id: int | None = Field(default=None, primary_key=True)
     competition_id: int = Field(foreign_key="competitions.id")
     scorer_id: int = Field(foreign_key="users.id")
@@ -60,6 +68,8 @@ class ScoreRequest(SQLModel):
     feedback: str
 
 class Polls(SQLModel, table=True):
+    __table_args__ = {'schema': 'public'}
+
     id: int | None = Field(default=None, primary_key=True)
     name: str
     poll_by: str
