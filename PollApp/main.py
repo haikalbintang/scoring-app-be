@@ -1,10 +1,18 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from PollApp.database import create_db_and_tables
 from PollApp.routers import auth, polls, admin, user, competitions, competition_participants, participant_scores
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # runs ONCE at startup, after uvicorn starts
+    create_db_and_tables()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:3000",
