@@ -3,7 +3,8 @@ from typing import List
 from sqlmodel import SQLModel, Field, Relationship
 
 
-class Users(SQLModel, table=True):
+class User(SQLModel, table=True):
+    __tablename__ = "users"
     __table_args__ = {'schema': 'public'}
 
     id: int | None = Field(default=None, primary_key=True)
@@ -40,28 +41,38 @@ class CompetitionsRequest(SQLModel):
     desc: str
 
 class CompetitionParticipants(SQLModel, table=True):
+    __tablename__ = "competition_participants"
     __table_args__ = {'schema': 'public'}
 
     id: int | None = Field(default=None, primary_key=True)
 
-    competition_id:  int = Field(foreign_key="competitions.id")
-    user_id: int = Field(foreign_key="users.id")
+    competition_id:  int = Field(foreign_key="public.competitions.id")
+    user_id: int = Field(foreign_key="public.users.id")
 
     competition: "Competitions" = Relationship(back_populates="participants")
-    user: "Users" = Relationship(back_populates="competitions")
+    user: "User" = Relationship(back_populates="competitions")
 
 class CompetitionParticipantsRequest(SQLModel):
     user_ids: List[int]
 
 class ParticipantScores(SQLModel, table=True):
+    __tablename__ = "participant_scores"
     __table_args__ = {'schema': 'public'}
 
     id: int | None = Field(default=None, primary_key=True)
-    competition_id: int = Field(foreign_key="competitions.id")
-    scorer_id: int = Field(foreign_key="users.id")
-    scored_id: int = Field(foreign_key="users.id")
+    competition_id: int = Field(foreign_key="public.competitions.id")
+    scorer_id: int = Field(foreign_key="public.users.id")
+    scored_id: int = Field(foreign_key="public.users.id")
     score: int
     feedback: str
+
+    competition: "Competitions" = Relationship()
+    scorer: "User" = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "[ParticipantScores.scorer_id]"}
+    )
+    scored: "User" = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "[ParticipantScores.scored_id]"}
+    )
 
 class ScoreRequest(SQLModel):
     score: int
@@ -74,7 +85,7 @@ class Polls(SQLModel, table=True):
     name: str
     poll_by: str
     poll: int
-    poll_by_id: int | None = Field(default=None, foreign_key="users.id")
+    poll_by_id: int | None = Field(default=None, foreign_key="public.users.id")
 
 class PollRequest(SQLModel):
     name: str = Field(min_length=1)

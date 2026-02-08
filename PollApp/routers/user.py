@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from sqlmodel import Session, select
 
 from PollApp.database import get_session
-from PollApp.models import Users, UserChangePassword
+from PollApp.models import User, UserChangePassword
 from .auth import get_current_user
 
 router = APIRouter(
@@ -22,7 +22,7 @@ bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 async def get_user(user: user_dependency, session: db_dependency):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Authentication Failed')
-    statement = select(Users).where(Users.id == user.get('id'))
+    statement = select(User).where(User.id == user.get('id'))
     user_model = session.exec(statement).one_or_none()
     if user_model is not None:
         return user_model
@@ -32,7 +32,7 @@ async def get_user(user: user_dependency, session: db_dependency):
 async def get_users(user: user_dependency, session: db_dependency):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Authentication Failed')
-    statement = select(Users)
+    statement = select(User)
     user_model = session.exec(statement).all()
     if user_model is not None:
         return user_model
@@ -45,7 +45,7 @@ async def change_passwords(user_change_password: UserChangePassword,
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Authentication Failed')
 
-    statement = select(Users).where(Users.id == user.get('id'))
+    statement = select(User).where(User.id == user.get('id'))
     user_model = session.exec(statement).one_or_none()
     if user_model is None:
         raise HTTPException(status_code=404, detail='User not found.')

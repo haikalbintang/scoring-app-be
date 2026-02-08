@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import SQLModel, Session, select
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 
-from PollApp.models import Users
+from PollApp.models import User
 from PollApp.database import get_session
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
@@ -33,7 +33,7 @@ class Token(SQLModel):
     token_type: str
 
 def authenticate_user(username: str, password: str, session: Session = Depends(get_session)):
-    statement = select(Users).where(Users.username == username)
+    statement = select(User).where(User.username == username)
     user = session.exec(statement).one_or_none()
     if user is None:
         return False
@@ -65,7 +65,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
 
 @router.post("/")
 async def create_user(create_user_request: CreateUserRequest, session: Session = Depends(get_session)):
-    create_user_model = Users(
+    create_user_model = User(
         username=create_user_request.username,
         email=create_user_request.email,
         hashed_password=bcrypt_context.hash(create_user_request.password),

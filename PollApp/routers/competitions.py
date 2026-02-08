@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload, outerjoin
 
 from PollApp.database import get_session
 from PollApp.models import Polls, PollRequest, Competitions, CompetitionsRequest, CompetitionParticipants, \
-    CompetitionRead, CompetitionParticipantsRequest, ParticipantTotalScore, ParticipantScores, Users, \
+    CompetitionRead, CompetitionParticipantsRequest, ParticipantTotalScore, ParticipantScores, User, \
     ParticipantScoreResponse
 from .auth import get_current_user
 
@@ -207,11 +207,11 @@ async def get_all_scores_by_competition(
     statement = (
         select(
             ParticipantScores.scored_id,
-            Users.username,
+            User.username,
             ParticipantScores.score,
             ParticipantScores.feedback,
         )
-        .join(Users, Users.id == ParticipantScores.scored_id)
+        .join(User, User.id == ParticipantScores.scored_id)
         .where(ParticipantScores.competition_id == competition_id)
     )
 
