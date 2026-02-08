@@ -232,9 +232,9 @@ async def get_all_scores_by_competition(
         grouped[scored_id]["feedbacks"].append(feedback)
         grouped[scored_id]["total_score"] += score
 
-    for data in grouped.values():
-        shuffle(data["scores"])
-        shuffle(data["feedbacks"])
+    # for data in grouped.values():
+    #     shuffle(data["scores"])
+    #     shuffle(data["feedbacks"])
 
     return list(grouped.values())
 
