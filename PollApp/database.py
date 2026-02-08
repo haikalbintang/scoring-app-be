@@ -14,6 +14,8 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={
 
 
 def create_db_and_tables():
+    from PollApp.models import Users, Competitions, CompetitionParticipants, ParticipantScores, Polls
+
     SQLModel.metadata.create_all(engine)
 
 
