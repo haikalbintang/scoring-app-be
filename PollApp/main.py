@@ -7,11 +7,16 @@ from PollApp.database import create_db_and_tables
 from PollApp.routers import auth, polls, admin, user, competitions, competition_participants, participant_scores
 from PollApp.models import User, Competitions, CompetitionParticipants, ParticipantScores, Polls
 
+print("🔥 FastAPI app starting...")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # runs ONCE at startup, after uvicorn starts
     create_db_and_tables()
     yield
+
+print("🔥 FastAPI app starting...2")
 
 app = FastAPI(lifespan=lifespan)
 
@@ -35,3 +40,5 @@ app.include_router(user.router)
 app.include_router(competitions.router)
 app.include_router(competition_participants.router)
 app.include_router(participant_scores.router)
+
+print("🔥 FastAPI app starting...3")
