@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from PollApp.database import create_db_and_tables
 from PollApp.routers import auth, polls, admin, user, competitions, competition_participants, participant_scores
-from PollApp.models import Users, Competitions, CompetitionParticipants, ParticipantScores, Polls
+from PollApp.models import User, Competitions, CompetitionParticipants, ParticipantScores, Polls
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
