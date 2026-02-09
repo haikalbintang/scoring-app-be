@@ -22,6 +22,7 @@ app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:3000",
+    "https://scoring-app-fe.vercel.app",
 ]
 
 app.add_middleware(
@@ -32,6 +33,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"status": "ok"}
 
 app.include_router(auth.router)
 # app.include_router(polls.router)
