@@ -28,6 +28,11 @@ async def get_user(user: user_dependency, session: db_dependency):
         return user_model
     raise HTTPException(status_code=404, detail='User not found')
 
+@router.get("/me")
+async def get_me(current_user: dict = Depends(get_current_user)):
+    return current_user
+
+
 @router.get('/all', status_code=status.HTTP_200_OK)
 async def get_users(user: user_dependency, session: db_dependency):
     if user is None:

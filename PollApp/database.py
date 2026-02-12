@@ -4,10 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# sqlite_file_name = "pollsapp6.db"
-# sqlite_url = f"sqlite:///PollApp/{sqlite_file_name}"
-#
-# engine = create_engine(sqlite_url)
+# sqlite_file_name = "pollsapp7.db"
+# SQLALCHEMY_DATABASE_URL = f"sqlite:///PollApp/{sqlite_file_name}"
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 # SQLALCHEMY_DATABASE_URL = 'postgresql://scoring_app_wentwhich:77c0c98b804ac621263126cf1325e9ab46b9a709@1-59hp.h.filess.io:5434/scoring_app_wentwhich?options=-c%20search_path=public'
